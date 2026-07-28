@@ -82,7 +82,7 @@ class Menu:
 
                         viewing = False
 
-            self.screen.fill((28,48,22))
+            self.screen.fill((12, 16, 32))
 
             title = self.title_font.render(
                 "HIGH SCORE",
@@ -224,7 +224,7 @@ class Menu:
 
     def draw(self):
 
-        self.screen.fill((28, 48, 22))
+        self.screen.fill((12, 16, 32))
 
         title = self.title_font.render(
             "PIXEL SNAKE",

@@ -306,13 +306,13 @@ class Game:
             menu_text = self.font.render(
                 "PRESS Q",
                 True,
-                WHITE
+                (60, 255, 170)
             )
 
             menu_text2 = self.font.render(
                 "FOR MENU",
                 True,
-                WHITE
+                (60, 255, 170)
             )
 
             self.screen.blit(
