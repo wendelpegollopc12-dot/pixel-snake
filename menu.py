@@ -1,4 +1,5 @@
 import pygame
+import os
 
 from settings import *
 from game import Game
@@ -20,11 +21,14 @@ class Menu:
         self.options = [
             "START GAME",
             "HIGH SCORE",
-            "SETTINGS",
+            "DIFFICULTY",
             "EXIT"
         ]
 
         self.selected = 0
+
+        self.difficulties = ["EASY", "MEDIUM", "HARD"]
+        self.difficulty = 1
 
         self.title_font = pygame.font.Font(
             "assets/fonts/PressStart2P-Regular.ttf",
@@ -47,6 +51,85 @@ class Menu:
             self.draw()
 
             self.clock.tick(FPS)
+
+    def load_high_score(self):
+
+        if not os.path.exists("highscore.txt"):
+
+             with open("highscore.txt", "w") as file:
+                file.write("0")
+
+        with open("highscore.txt", "r") as file:
+            return int(file.read())
+
+    def high_score_screen(self):
+
+        high_score = self.load_high_score()
+
+        viewing = True
+
+        while viewing:
+
+            for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    raise SystemExit
+
+                if event.type == pygame.KEYDOWN:
+
+                    if event.key == pygame.K_ESCAPE:
+
+                        viewing = False
+
+            self.screen.fill((28,48,22))
+
+            title = self.title_font.render(
+                "HIGH SCORE",
+                True,
+                (255,255,0)
+            )
+
+            score = self.title_font.render(
+                str(high_score).zfill(3),
+                True,
+                WHITE
+            )
+
+            info = self.font.render(
+                "PRESS ESC TO RETURN",
+                True,
+                WHITE
+            )
+
+            self.screen.blit(
+                title,
+                (
+                    WIDTH//2-title.get_width()//2,
+                    120
+                )
+            )
+
+            self.screen.blit(
+                score,
+                (
+                    WIDTH//2-score.get_width()//2,
+                    260
+                )
+            )
+
+            self.screen.blit(
+                info,
+                (
+                    WIDTH//2-info.get_width()//2,
+                    520
+                )
+            )
+
+            pygame.display.flip()
+
+            self.clock.tick(FPS)
+
 
     def events(self):
 
@@ -71,6 +154,44 @@ class Menu:
 
                     if self.selected >= len(self.options):
                         self.selected = 0
+                
+                elif event.key == pygame.K_LEFT:
+                    if self.selected == 2:
+                        self.difficulty -= 1
+
+                        if self.difficulty < 0:
+                            self.difficulty = 2
+
+                        import settings
+
+                        if self.difficulty == 0:
+                            settings.MOVE_SPEED = 12
+
+                        elif self.difficulty == 1:
+                            settings.MOVE_SPEED = 8
+
+                        else:
+                            settings.MOVE_SPEED = 5
+
+                elif event.key == pygame.K_RIGHT:
+
+                    if self.selected == 2:
+
+                        self.difficulty += 1
+
+                        if self.difficulty > 2:
+                            self.difficulty = 0
+
+                        import settings
+                                                    
+                        if self.difficulty == 0:
+                            settings.MOVE_SPEED = 12
+
+                        elif self.difficulty == 1:
+                            settings.MOVE_SPEED = 8
+
+                        else:
+                            settings.MOVE_SPEED = 5
 
                 elif event.key == pygame.K_RETURN:
 
@@ -83,7 +204,7 @@ class Menu:
                     # HIGH SCORE
                     elif self.selected == 1:
 
-                        print("High Score Menu Coming Soon")
+                        self.high_score_screen()
 
                     # SETTINGS
                     elif self.selected == 2:
@@ -125,6 +246,9 @@ class Menu:
 
             if i == self.selected:
                 color = (255, 255, 0)
+
+            if option == "DIFFICULTY":
+                option = f"DIFFICULTY : {self.difficulties[self.difficulty]}"
 
             text = self.font.render(
                 option,

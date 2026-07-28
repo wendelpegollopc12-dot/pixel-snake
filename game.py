@@ -1,4 +1,6 @@
 import pygame
+import settings
+import os
 
 from settings import *
 from snake import Snake
@@ -23,10 +25,9 @@ class Game:
         self.apple = Apple()
 
         self.score = 0
-
+        self.high_score = self.load_high_score()
         self.move_timer = 0
 
-        # Pixel Fonts
         self.font = pygame.font.Font(
             "assets/fonts/PressStart2P-Regular.ttf",
             16
@@ -45,6 +46,23 @@ class Game:
         self.score = 0
         self.game_over = False
 
+    def load_high_score(self):
+
+        if not os.path.exists("highscore.txt"):
+
+            with open("highscore.txt", "w") as file:
+                file.write("0")
+
+        with open("highscore.txt", "r") as file:
+
+            return int(file.read())
+
+    def save_high_score(self):
+
+        with open("highscore.txt", "w") as file:
+
+            file.write(str(self.high_score))
+
     def run(self):
 
         self.running = True
@@ -60,9 +78,6 @@ class Game:
 
             self.clock.tick(FPS)
 
-        # Return to menu
-        return
-
     def events(self):
 
         for event in pygame.event.get():
@@ -73,9 +88,6 @@ class Game:
 
             if event.type == pygame.KEYDOWN:
 
-                # ==========================
-                # GAME OVER CONTROLS
-                # ==========================
                 if self.game_over:
 
                     if event.key == pygame.K_r:
@@ -84,9 +96,6 @@ class Game:
                     elif event.key == pygame.K_q:
                         self.running = False
 
-                # ==========================
-                # GAME CONTROLS
-                # ==========================
                 else:
 
                     if event.key == pygame.K_UP and self.snake.direction != "DOWN":
@@ -105,19 +114,22 @@ class Game:
 
         self.move_timer += 1
 
-        if self.move_timer >= 8:
+        if self.move_timer >= settings.MOVE_SPEED:
 
             self.snake.move()
 
-            # Eat Apple
             if self.snake.body[0] == self.apple.position:
 
                 self.score += 1
                 self.snake.grow = True
                 self.apple.respawn()
 
-            # Hit itself
             if self.snake.body[0] in self.snake.body[1:]:
+
+                if self.score > self.high_score:
+
+                    self.high_score = self.score
+                    self.save_high_score()
 
                 self.game_over = True
 
@@ -125,28 +137,56 @@ class Game:
 
     def draw(self):
 
+        # ==========================
+        # BACKGROUND
+        # ==========================
+
         self.screen.fill(BACKGROUND)
 
         # ==========================
-        # DRAW APPLE
+        # APPLE
         # ==========================
-
         pygame.draw.rect(
             self.screen,
-            RED,
-            (
-                self.apple.position[0],
-                self.apple.position[1],
-                BLOCK_SIZE,
-                BLOCK_SIZE
-            )
-        )
+                RED,
+    (
+                    self.apple.position[0],
+                        self.apple.position[1],
+                            BLOCK_SIZE,
+                                BLOCK_SIZE
+    )
+
+    
+)
+
+        pygame.draw.rect(
+    self.screen,
+    (255, 180, 180),
+    (
+        self.apple.position[0] + 3,
+        self.apple.position[1] + 3,
+        5,
+        5
+    )
+)
 
         # ==========================
-        # DRAW SNAKE
+        # SNAKE
         # ==========================
 
         for x, y in self.snake.body:
+
+            pygame.draw.rect(
+                self.screen,
+                (60, 255, 170),
+                (
+                    x - 2,
+                    y - 2,
+                    BLOCK_SIZE + 4,
+                    BLOCK_SIZE + 4
+                ),
+                border_radius=6
+            )
 
             pygame.draw.rect(
                 self.screen,
@@ -156,8 +196,51 @@ class Game:
                     y,
                     BLOCK_SIZE,
                     BLOCK_SIZE
-                )
+                ),
+                border_radius=4
             )
+
+            pygame.draw.rect(
+                self.screen,
+                (180, 255, 220),
+                (
+                    x + 3,
+                    y + 3,
+                    5,
+                    5
+                ),
+                border_radius=2
+            )
+
+            if (x, y) == self.snake.body[0]:
+
+                pygame.draw.circle(
+                    self.screen,
+                    WHITE,
+                    (x + 6, y + 6),
+                    2
+                )
+
+                pygame.draw.circle(
+                    self.screen,
+                    WHITE,
+                    (x + 14, y + 6),
+                    2
+                )
+
+                pygame.draw.circle(
+                    self.screen,
+                    (0, 0, 0),
+                    (x + 6, y + 6),
+                    1
+                )
+
+                pygame.draw.circle(
+                    self.screen,
+                    (0, 0, 0),
+                    (x + 14, y + 6),
+                    1
+                )
 
         # ==========================
         # HUD
@@ -175,8 +258,15 @@ class Game:
             WHITE
         )
 
+        high_score = self.font.render(
+            f"BEST {self.high_score:03}",
+            True,
+            (255, 255, 0)
+        )
+
         self.screen.blit(title, (15, 12))
         self.screen.blit(score, (15, 42))
+        self.screen.blit(high_score, (15, 72))
 
         # ==========================
         # GAME OVER
