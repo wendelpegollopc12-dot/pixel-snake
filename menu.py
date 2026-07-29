@@ -3,6 +3,7 @@ import os
 
 from settings import *
 from game import Game
+from menu_snake import MenuSnake
 
 
 class Menu:
@@ -22,6 +23,12 @@ class Menu:
         )
         self.start_sound.set_volume(0.7)
 
+        self.select_sound = pygame.mixer.Sound(
+            "assets/sounds/select.wav"
+        )
+
+        self.select_sound.set_volume(0.5)
+
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(TITLE)
 
@@ -40,6 +47,7 @@ class Menu:
 
         self.difficulties = ["EASY", "MEDIUM", "HARD"]
         self.difficulty = 1
+        self.menu_snake = MenuSnake()
 
         self.title_font = pygame.font.Font(
             "assets/fonts/PressStart2P-Regular.ttf",
@@ -58,6 +66,8 @@ class Menu:
         while self.running:
 
             self.events()
+
+            self.menu_snake.update()
 
             self.draw()
 
@@ -159,12 +169,16 @@ class Menu:
                     if self.selected < 0:
                         self.selected = len(self.options) - 1
 
+                    self.select_sound.play()
+
                 elif event.key == pygame.K_DOWN:
 
                     self.selected += 1
 
                     if self.selected >= len(self.options):
                         self.selected = 0
+
+                    self.select_sound.play()
                 
                 elif event.key == pygame.K_LEFT:
                     if self.selected == 2:
@@ -183,6 +197,8 @@ class Menu:
 
                         else:
                             settings.MOVE_SPEED = 5
+
+                        self.select_sound.play()
 
                 elif event.key == pygame.K_RIGHT:
 
@@ -203,6 +219,8 @@ class Menu:
 
                         else:
                             settings.MOVE_SPEED = 5
+
+                        self.select_sound.play()
 
                 elif event.key == pygame.K_RETURN:
 
@@ -244,6 +262,62 @@ class Menu:
     def draw(self):
 
         self.screen.fill((12, 16, 32))
+
+        for x, y in self.menu_snake.body:
+
+            pygame.draw.rect(
+                self.screen,
+                (40, 180, 120),
+                (
+                    x - 2,
+                    y - 2,
+                    BLOCK_SIZE + 4,
+                    BLOCK_SIZE + 4
+                ),
+                border_radius=6
+            )
+
+            pygame.draw.rect(
+                self.screen,
+                GREEN,
+                (
+                    x,
+                    y,
+                    BLOCK_SIZE,
+                    BLOCK_SIZE
+                ),
+                border_radius=4
+            )
+
+            head_x, head_y = self.menu_snake.body[0]
+
+            pygame.draw.circle(
+                self.screen,
+                WHITE,
+                (head_x + 6, head_y + 6),
+                2
+            )
+
+            pygame.draw.circle(
+                self.screen,
+                WHITE,
+                (head_x + 14, head_y + 6),
+                2
+            )
+
+            pygame.draw.circle(
+                self.screen,
+                (0, 0, 0),
+                (head_x + 6, head_y + 6),
+                1
+            )
+
+            pygame.draw.circle(
+                self.screen,
+                (0, 0, 0),
+                (head_x + 14, head_y + 6),
+                1
+            )
 
         title = self.title_font.render(
             "PIXEL SNAKE",
