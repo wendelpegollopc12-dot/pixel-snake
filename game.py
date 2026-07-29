@@ -20,6 +20,7 @@ class Game:
 
         self.running = True
         self.game_over = False
+        self.paused = False
 
         self.snake = Snake()
         self.apple = Apple()
@@ -71,7 +72,7 @@ class Game:
 
             self.events()
 
-            if not self.game_over:
+            if not self.game_over and not self.paused:
                 self.update()
 
             self.draw()
@@ -97,8 +98,10 @@ class Game:
                         self.running = False
 
                 else:
+                    if event.key == pygame.K_SPACE:
+                        self.paused = not self.paused
 
-                    if event.key == pygame.K_UP and self.snake.direction != "DOWN":
+                    elif event.key == pygame.K_UP and self.snake.direction != "DOWN":
                         self.snake.direction = "UP"
 
                     elif event.key == pygame.K_DOWN and self.snake.direction != "UP":
@@ -363,4 +366,45 @@ class Game:
                 )
             )
 
+        # ==========================
+        # PAUSE SCREEN
+        # ==========================
+
+        if self.paused:
+
+            overlay = pygame.Surface((WIDTH, HEIGHT))
+            overlay.set_alpha(180)
+            overlay.fill((0, 0, 0))
+            self.screen.blit(overlay, (0, 0))
+
+            paused = self.big_font.render(
+                "PAUSED",
+                True,
+                (255, 255, 0)
+            )
+
+            resume = self.font.render(
+                "PRESS SPACE TO RESUME",
+                True,
+                WHITE
+            )
+
+            self.screen.blit(
+                paused,
+                (
+                    WIDTH // 2 - paused.get_width() // 2,
+                    HEIGHT // 2 - 40
+                )
+            )
+
+            self.screen.blit(
+                resume,
+                (
+                    WIDTH // 2 - resume.get_width() // 2,
+                    HEIGHT // 2 + 30
+                )
+            )
+
         pygame.display.flip()
+
+        
