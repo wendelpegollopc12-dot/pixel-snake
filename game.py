@@ -39,6 +39,18 @@ class Game:
             34
         )
 
+        self.gameover_sound = pygame.mixer.Sound(
+            "assets/sounds/gameover.wav"
+        )
+
+        self.gameover_sound.set_volume(0.8)
+
+        self.eat_sound = pygame.mixer.Sound(
+            "assets/sounds/bite.wav"
+        )
+
+        self.eat_sound.set_volume(0.6)
+
     def reset_game(self):
 
         self.snake = Snake()
@@ -125,6 +137,7 @@ class Game:
 
                 self.score += 1
                 self.snake.grow = True
+                self.eat_sound.play()
                 self.apple.respawn()
 
             if self.snake.body[0] in self.snake.body[1:]:
@@ -133,6 +146,8 @@ class Game:
 
                     self.high_score = self.score
                     self.save_high_score()
+
+                self.gameover_sound.play()
 
                 self.game_over = True
 

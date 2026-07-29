@@ -11,6 +11,17 @@ class Menu:
 
         pygame.init()
 
+        pygame.mixer.init()
+
+        pygame.mixer.music.load("assets/music/menu.mp3")
+        pygame.mixer.music.set_volume(0.35)
+        pygame.mixer.music.play(-1)
+
+        self.start_sound = pygame.mixer.Sound(
+            "assets/sounds/start.wav"
+        )
+        self.start_sound.set_volume(0.7)
+
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption(TITLE)
 
@@ -198,8 +209,16 @@ class Menu:
                     # START GAME
                     if self.selected == 0:
 
+                        self.start_sound.play()
+
+                        pygame.time.wait(250)
+
+                        pygame.mixer.music.stop()
+
                         game = Game()
                         game.run()
+
+                        pygame.mixer.music.play(-1)
 
                     # HIGH SCORE
                     elif self.selected == 1:
