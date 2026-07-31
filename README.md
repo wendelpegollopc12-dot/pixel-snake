@@ -28,19 +28,19 @@ A retro-inspired Snake game built with Python and Pygame.
 
 ### Main Menu
 
-![Main Menu](https://raw.githubusercontent.com/wendelpegollopc12-dot/pixel-snake/main/screenshots/main-menu.png)
+![Main Menu](https://raw.githubusercontent.com/wendelpegollopc12-dot/pixel-snake/main/assets/screenshots/main-menu.png)
 
 ### Gameplay
 
-![Gameplay](https://raw.githubusercontent.com/wendelpegollopc12-dot/pixel-snake/main/screenshots/gameplay.png)
+![Gameplay](https://raw.githubusercontent.com/wendelpegollopc12-dot/pixel-snake/main/assets/screenshots/gameplay.png)
 
 ### Pause Screen
 
-![Pause Screen](https://raw.githubusercontent.com/wendelpegollopc12-dot/pixel-snake/main/screenshots/pause.png)
+![Pause Screen](https://raw.githubusercontent.com/wendelpegollopc12-dot/pixel-snake/main/assets/screenshots/pause.png)
 
 ### Game Over
 
-![Game Over](https://raw.githubusercontent.com/wendelpegollopc12-dot/pixel-snake/main/screenshots/game-over.png)
+![Game Over](https://raw.githubusercontent.com/wendelpegollopc12-dot/pixel-snake/main/assets/screenshots/game-over.png)
 
 ## 🚀 Requirements
 
