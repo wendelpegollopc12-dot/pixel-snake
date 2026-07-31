@@ -5,51 +5,33 @@ A retro-inspired Snake game built with Python and Pygame.
 ## 🎮 Features
 
 - Pixel-art inspired design
-- Animated Snake on the main menu
+- Animated menu snake
 - Background music
 - Sound effects
 - Pause and resume system
 - High score saving
 - Difficulty selection
 - Game Over screen
-- Restart and return-to-menu options
 
 ## 🕹️ Controls
 
-| Key | Action |
-|---|---|
-| ↑ ↓ ← → | Move the Snake |
-| SPACE | Pause / Resume |
-| ENTER | Select Menu |
-| R | Restart after Game Over |
-| Q | Return to Menu |
+- **Arrow Keys** — Move the snake
+- **Space** — Pause / Resume
+- **Enter** — Select
+- **Q** — Return to Menu
+- **R** — Restart
 
-## 📸 Screenshots
+## 🛠️ Built With
 
-### Main Menu
-
-![Main Menu](screenshots/main-menu.png)
-
-### Gameplay
-
-![Gameplay](screenshots/gameplay.png)
-
-### Pause Screen
-
-![Pause Screen](screenshots/pause.png)
-
-### Game Over
-
-![Game Over](screenshots/game-over.png)
-
-## 🚀 Requirements
-
-- Python 3.13+
+- Python
 - Pygame
 
-## ▶️ How to Run
+## 🎯 Project Status
 
-Clone the repository:
+**Version 1.0 — Completed**
 
-```bash
-git clone https://github.com/wendelpegollopc12-dot/pixel-snake.git
+## 👨‍💻 Author
+
+**Wendel Pegollo**
+
+GitHub: `wendelpegollopc12-dot`
