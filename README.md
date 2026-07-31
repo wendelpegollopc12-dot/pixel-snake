@@ -28,19 +28,19 @@ A retro-inspired Snake game built with Python and Pygame.
 
 ### Main Menu
 
-![Main Menu](screenshots/main-menu.png)
+![Main Menu](./screenshots/main-menu.png)
 
 ### Gameplay
 
-![Gameplay](screenshots/gameplay.png)
+![Gameplay](./screenshots/gameplay.png)
 
 ### Pause Screen
 
-![Pause Screen](screenshots/pause.png)
+![Pause Screen](./screenshots/pause.png)
 
 ### Game Over
 
-![Game Over](screenshots/game-over.png)
+![Game Over](./screenshots/game-over.png)
 
 ## 🚀 Requirements
 
