@@ -40,6 +40,7 @@ class Menu:
             "START GAME",
             "HIGH SCORE",
             "DIFFICULTY",
+            "SKIN",
             "EXIT"
         ]
 
@@ -47,6 +48,17 @@ class Menu:
 
         self.difficulties = ["EASY", "MEDIUM", "HARD"]
         self.difficulty = 1
+
+        self.skin_names = [
+            "DEFAULT",
+            "BLUE",
+            "PINK",
+            "VIOLET",
+            "GOLD"
+        ]
+
+        self.skin_selected = 0
+
         self.menu_snake = MenuSnake()
 
         self.title_font = pygame.font.Font(
@@ -200,6 +212,21 @@ class Menu:
 
                         self.select_sound.play()
 
+                    elif self.selected == 3:
+
+                        self.skin_selected -= 1
+
+                        if self.skin_selected < 0:
+                            self.skin_selected = len(self.skin_names) - 1
+
+                        import settings
+
+                        settings.CURRENT_SKIN = self.skin_names[
+                            self.skin_selected
+                        ]
+
+                        self.select_sound.play()
+
                 elif event.key == pygame.K_RIGHT:
 
                     if self.selected == 2:
@@ -219,6 +246,21 @@ class Menu:
 
                         else:
                             settings.MOVE_SPEED = 5
+
+                        self.select_sound.play()
+
+                    elif self.selected == 3:
+
+                        self.skin_selected += 1
+
+                        if self.skin_selected >= len(self.skin_names):
+                            self.skin_selected = 0
+
+                        import settings
+
+                        settings.CURRENT_SKIN = self.skin_names[
+                            self.skin_selected
+                        ]
 
                         self.select_sound.play()
 
@@ -243,13 +285,18 @@ class Menu:
 
                         self.high_score_screen()
 
-                    # SETTINGS
+                    # DIFFICULTY
                     elif self.selected == 2:
 
-                        print("Settings Menu Coming Soon")
+                        pass
+
+                    #SKIN
+                    elif self.selected == 3:
+
+                        pass
 
                     # EXIT
-                    elif self.selected == 3:
+                    elif self.selected == 4:
 
                         pygame.quit()
                         raise SystemExit
@@ -342,6 +389,9 @@ class Menu:
 
             if option == "DIFFICULTY":
                 option = f"DIFFICULTY : {self.difficulties[self.difficulty]}"
+
+            if option == "SKIN":
+                option = f"SKIN : {self.skin_names[self.skin_selected]}"
 
             text = self.font.render(
                 option,

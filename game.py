@@ -110,6 +110,7 @@ class Game:
                         self.running = False
 
                 else:
+
                     if event.key == pygame.K_SPACE:
                         self.paused = not self.paused
 
@@ -164,39 +165,108 @@ class Game:
         # ==========================
         # APPLE
         # ==========================
+
+        apple_x, apple_y = self.apple.position
+
+        # Apple dark red outline
+
         pygame.draw.rect(
             self.screen,
-                RED,
-    (
-                    self.apple.position[0],
-                        self.apple.position[1],
-                            BLOCK_SIZE,
-                                BLOCK_SIZE
-    )
+            (120, 20, 20),
+            (
+                apple_x - 2,
+                apple_y - 2,
+                BLOCK_SIZE + 4,
+                BLOCK_SIZE + 4
+            ),
+            border_radius=5
+        )
 
-    
-)
+        # Apple body
 
         pygame.draw.rect(
-    self.screen,
-    (255, 180, 180),
-    (
-        self.apple.position[0] + 3,
-        self.apple.position[1] + 3,
-        5,
-        5
-    )
-)
+            self.screen,
+            RED,
+            (
+                apple_x,
+                apple_y,
+                BLOCK_SIZE,
+                BLOCK_SIZE
+            ),
+            border_radius=3
+        )
+
+        # Apple highlight
+
+        pygame.draw.rect(
+            self.screen,
+            (255, 150, 150),
+            (
+                apple_x + 4,
+                apple_y + 4,
+                4,
+                4
+            )
+        )
+
+        # Apple stem
+
+        pygame.draw.rect(
+            self.screen,
+            (90, 50, 20),
+            (
+                apple_x + BLOCK_SIZE // 2 - 1,
+                apple_y - 4,
+                3,
+                5
+            )
+        )
 
         # ==========================
         # SNAKE
         # ==========================
 
+        if settings.CURRENT_SKIN == "DEFAULT":
+
+            snake_color = GREEN
+            snake_glow = (60, 255, 170)
+            snake_highlight = (180, 255, 220)
+
+        elif settings.CURRENT_SKIN == "BLUE":
+
+            snake_color = (60, 140, 255)
+            snake_glow = (100, 180, 255)
+            snake_highlight = (180, 220, 255)
+
+        elif settings.CURRENT_SKIN == "PINK":
+
+            snake_color = (255, 105, 180)
+            snake_glow = (255, 160, 210)
+            snake_highlight = (255, 200, 230)
+
+        elif settings.CURRENT_SKIN == "VIOLET":
+
+            snake_color = (160, 80, 255)
+            snake_glow = (200, 140, 255)
+            snake_highlight = (220, 190, 255)
+
+        elif settings.CURRENT_SKIN == "GOLD":
+
+            snake_color = (255, 190, 40)
+            snake_glow = (255, 220, 100)
+            snake_highlight = (255, 240, 170)
+
+        else:
+
+            snake_color = GREEN
+            snake_glow = (60, 255, 170)
+            snake_highlight = (180, 255, 220)
+
         for x, y in self.snake.body:
 
             pygame.draw.rect(
                 self.screen,
-                (60, 255, 170),
+                snake_glow,
                 (
                     x - 2,
                     y - 2,
@@ -208,7 +278,7 @@ class Game:
 
             pygame.draw.rect(
                 self.screen,
-                GREEN,
+                snake_color,
                 (
                     x,
                     y,
@@ -220,7 +290,7 @@ class Game:
 
             pygame.draw.rect(
                 self.screen,
-                (180, 255, 220),
+                snake_highlight,
                 (
                     x + 3,
                     y + 3,
@@ -421,5 +491,3 @@ class Game:
             )
 
         pygame.display.flip()
-
-        

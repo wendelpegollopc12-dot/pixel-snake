@@ -11,6 +11,7 @@ A retro-inspired Snake game built with Python and Pygame.
 - Pause and resume system
 - High score saving
 - Difficulty selection
+- Snake skin selection
 - Game Over screen
 - Restart and return-to-menu options
 
@@ -21,6 +22,7 @@ A retro-inspired Snake game built with Python and Pygame.
 | ↑ ↓ ← → | Move the Snake |
 | SPACE | Pause / Resume |
 | ENTER | Select Menu |
+| ← → | Change Difficulty / Skin |
 | R | Restart after Game Over |
 | Q | Return to Menu |
 
