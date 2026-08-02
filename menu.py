@@ -132,7 +132,7 @@ class Menu:
             info = self.font.render(
                 "PRESS ESC TO RETURN",
                 True,
-                WHITE
+                (170, 170, 170)
             )
 
             self.screen.blit(
@@ -164,6 +164,399 @@ class Menu:
             self.clock.tick(FPS)
 
 
+    def difficulty_screen(self):
+
+        viewing = True
+
+        while viewing:
+
+            for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+
+                    pygame.quit()
+                    raise SystemExit
+
+                if event.type == pygame.KEYDOWN:
+
+                    if event.key == pygame.K_UP:
+
+                        self.difficulty -= 1
+
+                        if self.difficulty < 0:
+                            self.difficulty = len(
+                                self.difficulties
+                            ) - 1
+
+                        self.select_sound.play()
+
+                    elif event.key == pygame.K_DOWN:
+
+                        self.difficulty += 1
+
+                        if self.difficulty >= len(
+                            self.difficulties
+                        ):
+                            self.difficulty = 0
+
+                        self.select_sound.play()
+
+                    elif event.key == pygame.K_RETURN:
+
+                        import settings
+
+                        if self.difficulty == 0:
+                            settings.MOVE_SPEED = 12
+
+                        elif self.difficulty == 1:
+                            settings.MOVE_SPEED = 8
+
+                        else:
+                            settings.MOVE_SPEED = 5
+
+                        self.select_sound.play()
+
+                    elif event.key == pygame.K_ESCAPE:
+
+                        viewing = False
+
+            self.screen.fill((12, 16, 32))
+
+            title = self.title_font.render(
+                "DIFFICULTY",
+                True,
+                (255, 255, 0)
+            )
+
+            self.screen.blit(
+                title,
+                (
+                    WIDTH // 2 -
+                    title.get_width() // 2,
+                    100
+                )
+            )
+
+            start_y = 220
+
+            difficulty_colors = [
+                (80, 255, 140),
+                (255, 255, 0),
+                (255, 80, 80)
+            ]
+
+            for i, difficulty in enumerate(
+                self.difficulties
+            ):
+
+                y = start_y + i * 70
+
+                if i == self.difficulty:
+
+                    pygame.draw.rect(
+                        self.screen,
+                        (45, 45, 65),
+                        (
+                            WIDTH // 2 - 230,
+                            y - 15,
+                            460,
+                            55
+                        ),
+                        border_radius=6
+                    )
+
+                    pygame.draw.rect(
+                        self.screen,
+                        (255, 255, 0),
+                        (
+                            WIDTH // 2 - 230,
+                            y - 15,
+                            460,
+                            55
+                        ),
+                        2,
+                        border_radius=6
+                    )
+
+                text = self.font.render(
+                    difficulty,
+                    True,
+                    difficulty_colors[i]
+                    if i == self.difficulty
+                    else WHITE
+                )
+
+                self.screen.blit(
+                    text,
+                    (
+                        WIDTH // 2 -
+                        text.get_width() // 2,
+                        y
+                    )
+                )
+
+            info = self.font.render(
+                "UP / DOWN = SELECT",
+                True,
+                (170, 170, 170)
+            )
+
+            self.screen.blit(
+                info,
+                (
+                    WIDTH // 2 -
+                    info.get_width() // 2,
+                    HEIGHT - 85
+                )
+            )
+
+            info2 = self.font.render(
+                "ENTER = EQUIP   ESC = BACK",
+                True,
+                (170, 170, 170)
+            )
+
+            self.screen.blit(
+                info2,
+                (
+                    WIDTH // 2 -
+                    info2.get_width() // 2,
+                    HEIGHT - 50
+                )
+            )
+
+            pygame.display.flip()
+
+            self.clock.tick(FPS)
+
+    def skin_screen(self):
+
+        viewing = True
+
+        while viewing:
+
+            for event in pygame.event.get():
+
+                if event.type == pygame.QUIT:
+
+                    pygame.quit()
+                    raise SystemExit
+
+                if event.type == pygame.KEYDOWN:
+
+                    if event.key == pygame.K_UP:
+
+                        self.skin_selected -= 1
+
+                        if self.skin_selected < 0:
+                            self.skin_selected = len(
+                                self.skin_names
+                            ) - 1
+
+                        self.select_sound.play()
+
+                    elif event.key == pygame.K_DOWN:
+
+                        self.skin_selected += 1
+
+                        if self.skin_selected >= len(
+                            self.skin_names
+                        ):
+                            self.skin_selected = 0
+
+                        self.select_sound.play()
+
+                    elif event.key == pygame.K_RETURN:
+
+                        import settings
+
+                        settings.CURRENT_SKIN = self.skin_names[
+                            self.skin_selected
+                        ]
+
+                        self.select_sound.play()
+
+                    elif event.key == pygame.K_ESCAPE:
+
+                        viewing = False
+
+            self.screen.fill((12, 16, 32))
+
+            title = self.title_font.render(
+                "SELECT SKIN",
+                True,
+                (255, 255, 0)
+            )
+
+            self.screen.blit(
+                title,
+                (
+                    WIDTH // 2 -
+                    title.get_width() // 2,
+                    70
+                )
+            )
+
+            skin_colors = {
+                "DEFAULT": (
+                    GREEN,
+                    (60, 255, 170),
+                    (180, 255, 220)
+                ),
+                "BLUE": (
+                    (60, 140, 255),
+                    (100, 180, 255),
+                    (180, 220, 255)
+                ),
+                "PINK": (
+                    (255, 105, 180),
+                    (255, 160, 210),
+                    (255, 200, 230)
+                ),
+                "VIOLET": (
+                    (160, 80, 255),
+                    (200, 140, 255),
+                    (220, 190, 255)
+                ),
+                "GOLD": (
+                    (255, 190, 40),
+                    (255, 220, 100),
+                    (255, 240, 170)
+                )
+            }
+
+            start_y = 150
+
+            for i, skin in enumerate(self.skin_names):
+
+                snake_color, snake_glow, snake_highlight = (
+                    skin_colors[skin]
+                )
+
+                y = start_y + i * 65
+
+                if i == self.skin_selected:
+
+                    pygame.draw.rect(
+                        self.screen,
+                        (45, 45, 65),
+                        (
+                            WIDTH // 2 - 230,
+                            y - 15,
+                            460,
+                            55
+                        ),
+                        border_radius=6
+                    )
+
+                    pygame.draw.rect(
+                        self.screen,
+                        (255, 255, 0),
+                        (
+                            WIDTH // 2 - 230,
+                            y - 15,
+                            460,
+                            55
+                        ),
+                        2,
+                        border_radius=6
+                    )
+
+                # Preview snake: separate pixel blocks
+                preview_x = WIDTH // 2 - 175
+
+                for segment in range(5):
+
+                    x = preview_x + segment * BLOCK_SIZE
+
+                    pygame.draw.rect(
+                        self.screen,
+                        snake_glow,
+                        (
+                            x - 2,
+                            y - 2,
+                            BLOCK_SIZE + 4,
+                            BLOCK_SIZE + 4
+                        ),
+                        border_radius=5
+                    )
+
+                    pygame.draw.rect(
+                        self.screen,
+                        snake_color,
+                        (
+                            x,
+                            y,
+                            BLOCK_SIZE,
+                            BLOCK_SIZE
+                        ),
+                        border_radius=3
+                    )
+
+                    pygame.draw.rect(
+                        self.screen,
+                        snake_highlight,
+                        (
+                            x + 3,
+                            y + 3,
+                            5,
+                            5
+                        ),
+                        border_radius=2
+                    )
+
+                text = self.font.render(
+                    skin,
+                    True,
+                    (
+                        255,
+                        255,
+                        0
+                    ) if i == self.skin_selected else WHITE
+                )
+
+                self.screen.blit(
+                    text,
+                    (
+                        WIDTH // 2 + 5,
+                        y + 2
+                    )
+                )
+
+            info = self.font.render(
+                "UP / DOWN = SELECT",
+                True,
+                (170, 170, 170)
+            )
+
+            self.screen.blit(
+                info,
+                (
+                    WIDTH // 2 -
+                    info.get_width() // 2,
+                    HEIGHT - 85
+                )
+            )
+
+            info2 = self.font.render(
+                "ENTER = EQUIP   ESC = BACK",
+                True,
+                (170, 170, 170)
+            )
+
+            self.screen.blit(
+                info2,
+                (
+                    WIDTH // 2 -
+                    info2.get_width() // 2,
+                    HEIGHT - 50
+                )
+            )
+
+            pygame.display.flip()
+
+            self.clock.tick(FPS)
+
     def events(self):
 
         for event in pygame.event.get():
@@ -193,76 +586,12 @@ class Menu:
                     self.select_sound.play()
                 
                 elif event.key == pygame.K_LEFT:
-                    if self.selected == 2:
-                        self.difficulty -= 1
 
-                        if self.difficulty < 0:
-                            self.difficulty = 2
-
-                        import settings
-
-                        if self.difficulty == 0:
-                            settings.MOVE_SPEED = 12
-
-                        elif self.difficulty == 1:
-                            settings.MOVE_SPEED = 8
-
-                        else:
-                            settings.MOVE_SPEED = 5
-
-                        self.select_sound.play()
-
-                    elif self.selected == 3:
-
-                        self.skin_selected -= 1
-
-                        if self.skin_selected < 0:
-                            self.skin_selected = len(self.skin_names) - 1
-
-                        import settings
-
-                        settings.CURRENT_SKIN = self.skin_names[
-                            self.skin_selected
-                        ]
-
-                        self.select_sound.play()
+                    pass
 
                 elif event.key == pygame.K_RIGHT:
 
-                    if self.selected == 2:
-
-                        self.difficulty += 1
-
-                        if self.difficulty > 2:
-                            self.difficulty = 0
-
-                        import settings
-                                                    
-                        if self.difficulty == 0:
-                            settings.MOVE_SPEED = 12
-
-                        elif self.difficulty == 1:
-                            settings.MOVE_SPEED = 8
-
-                        else:
-                            settings.MOVE_SPEED = 5
-
-                        self.select_sound.play()
-
-                    elif self.selected == 3:
-
-                        self.skin_selected += 1
-
-                        if self.skin_selected >= len(self.skin_names):
-                            self.skin_selected = 0
-
-                        import settings
-
-                        settings.CURRENT_SKIN = self.skin_names[
-                            self.skin_selected
-                        ]
-
-                        self.select_sound.play()
+                    pass
 
                 elif event.key == pygame.K_RETURN:
 
@@ -288,12 +617,12 @@ class Menu:
                     # DIFFICULTY
                     elif self.selected == 2:
 
-                        pass
+                        self.difficulty_screen()
 
-                    #SKIN
+                    # SKIN
                     elif self.selected == 3:
 
-                        pass
+                        self.skin_screen()
 
                     # EXIT
                     elif self.selected == 4:
@@ -388,10 +717,10 @@ class Menu:
                 color = (255, 255, 0)
 
             if option == "DIFFICULTY":
-                option = f"DIFFICULTY : {self.difficulties[self.difficulty]}"
+                option = "DIFFICULTY"
 
             if option == "SKIN":
-                option = f"SKIN : {self.skin_names[self.skin_selected]}"
+                option = "SKIN"
 
             text = self.font.render(
                 option,

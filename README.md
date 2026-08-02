@@ -13,7 +13,6 @@ A retro-inspired Snake game built with Python and Pygame.
 - Difficulty selection
 - Snake skin selection
 - Game Over screen
-- Restart and return-to-menu options
 
 ## 🕹️ Controls
 
@@ -31,6 +30,14 @@ A retro-inspired Snake game built with Python and Pygame.
 ### Main Menu
 
 ![Main Menu](https://raw.githubusercontent.com/wendelpegollopc12-dot/pixel-snake/main/assets/screenshots/main-menu.png)
+
+### Difficulty
+
+![Difficulty](https://raw.githubusercontent.com/wendelpegollopc12-dot/pixel-snake/main/assets/screenshots/difficulty.png)
+
+### Skins
+
+![Skins](https://raw.githubusercontent.com/wendelpegollopc12-dot/pixel-snake/main/assets/screenshots/skins.png)
 
 ### Gameplay
 
