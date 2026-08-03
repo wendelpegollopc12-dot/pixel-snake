@@ -206,15 +206,20 @@ class Menu:
                         import settings
 
                         if self.difficulty == 0:
+                            settings.DIFFICULTY = "EASY"
                             settings.MOVE_SPEED = 12
 
                         elif self.difficulty == 1:
+                            settings.DIFFICULTY = "MEDIUM"
                             settings.MOVE_SPEED = 8
 
                         else:
+                            settings.DIFFICULTY = "HARD"
                             settings.MOVE_SPEED = 5
 
                         self.select_sound.play()
+
+                        viewing = False
 
                     elif event.key == pygame.K_ESCAPE:
 
@@ -311,7 +316,7 @@ class Menu:
             )
 
             info2 = self.font.render(
-                "ENTER = EQUIP   ESC = BACK",
+                "ENTER = SELECT   ESC = BACK",
                 True,
                 (170, 170, 170)
             )
@@ -375,6 +380,8 @@ class Menu:
                         ]
 
                         self.select_sound.play()
+
+                        viewing = False
 
                     elif event.key == pygame.K_ESCAPE:
 
@@ -539,7 +546,7 @@ class Menu:
             )
 
             info2 = self.font.render(
-                "ENTER = EQUIP   ESC = BACK",
+                "ENTER = SELECT   ESC = BACK",
                 True,
                 (170, 170, 170)
             )
@@ -717,10 +724,16 @@ class Menu:
                 color = (255, 255, 0)
 
             if option == "DIFFICULTY":
-                option = "DIFFICULTY"
+
+                import settings
+
+                option = f"DIFFICULTY : {settings.DIFFICULTY}"
 
             if option == "SKIN":
-                option = "SKIN"
+
+                import settings
+
+                option = f"SKIN : {settings.CURRENT_SKIN}"
 
             text = self.font.render(
                 option,

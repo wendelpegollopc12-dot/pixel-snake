@@ -21,6 +21,8 @@ class Game:
         self.running = True
         self.game_over = False
         self.paused = False
+        self.pause_selected = 0
+        self.pause_options = ["RESUME", "QUIT TO MENU"]
 
         self.snake = Snake()
         self.apple = Apple()
@@ -111,8 +113,34 @@ class Game:
 
                 else:
 
-                    if event.key == pygame.K_SPACE:
-                        self.paused = not self.paused
+                    if self.paused:
+
+                        if event.key == pygame.K_UP:
+                            self.pause_selected -= 1
+
+                            if self.pause_selected < 0:
+                                self.pause_selected = len(self.pause_options) - 1
+
+                        elif event.key == pygame.K_DOWN:
+                            self.pause_selected += 1
+
+                            if self.pause_selected >= len(self.pause_options):
+                                self.pause_selected = 0
+
+                        elif event.key == pygame.K_RETURN:
+
+                            if self.pause_selected == 0:
+                                self.paused = False
+
+                            else:
+                                self.running = False
+
+                        elif event.key == pygame.K_SPACE:
+                            self.paused = False
+
+                    elif event.key == pygame.K_SPACE:
+                        self.paused = True
+                        self.pause_selected = 0
 
                     elif event.key == pygame.K_UP and self.snake.direction != "DOWN":
                         self.snake.direction = "UP"
@@ -458,7 +486,7 @@ class Game:
         if self.paused:
 
             overlay = pygame.Surface((WIDTH, HEIGHT))
-            overlay.set_alpha(180)
+            overlay.set_alpha(190)
             overlay.fill((0, 0, 0))
             self.screen.blit(overlay, (0, 0))
 
@@ -468,25 +496,46 @@ class Game:
                 (255, 255, 0)
             )
 
-            resume = self.font.render(
-                "PRESS SPACE TO RESUME",
-                True,
-                WHITE
-            )
-
             self.screen.blit(
                 paused,
                 (
                     WIDTH // 2 - paused.get_width() // 2,
-                    HEIGHT // 2 - 40
+                    HEIGHT // 2 - 125
                 )
             )
 
+            for i, option in enumerate(self.pause_options):
+
+                color = WHITE
+
+                if i == self.pause_selected:
+                    color = (255, 255, 0)
+
+                text = self.font.render(
+                    option,
+                    True,
+                    color
+                )
+
+                self.screen.blit(
+                    text,
+                    (
+                        WIDTH // 2 - text.get_width() // 2,
+                        HEIGHT // 2 - 35 + i * 55
+                    )
+                )
+
+            controls = self.font.render(
+                "ARROWS = MOVE   ENTER = SELECT",
+                True,
+                (150, 150, 150)
+            )
+
             self.screen.blit(
-                resume,
+                controls,
                 (
-                    WIDTH // 2 - resume.get_width() // 2,
-                    HEIGHT // 2 + 30
+                    WIDTH // 2 - controls.get_width() // 2,
+                    HEIGHT - 55
                 )
             )
 
